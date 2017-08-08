@@ -3,7 +3,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 REQUIRES='core'
-DESCRIPTION='Basic CLI tools such as ssh.'
+DESCRIPTION='Basic installation of WordPress on a LEMP stack'
 HOSTBIN='wp'
 CHROOTBIN='croutonpowerd'
 . "${TARGETSDIR:="$PWD"}/common"
