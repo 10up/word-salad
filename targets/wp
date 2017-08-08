@@ -1,0 +1,38 @@
+#!/bin/sh -e
+# Copyright (c) 2016 The crouton Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+REQUIRES='core'
+DESCRIPTION='Basic CLI tools such as ssh.'
+HOSTBIN='wp'
+CHROOTBIN='croutonpowerd'
+. "${TARGETSDIR:="$PWD"}/common"
+
+# Update database
+apt-get update || true
+
+### Append to prepare.sh:
+install nginx mysql-server php-fpm php-mysql php7.0-xml vim git
+
+### Install WP
+if [ ! -f '/var/www/wordpress/index.php' ]; then
+	git clone https://github.com/WordPress/WordPress.git /var/www/wordpress/ 
+fi
+
+### Set up rc.local to start mysql, php, and nginx
+
+cat << EOF > /etc/rc.local
+#!/bin/sh -e
+export HOME=/etc/mysql
+umask 007
+[ -d /var/run/mysqld ] || install -m 755 -o mysql -g root -d /var/run/mysqld
+/usr/sbin/mysqld &
+
+service nginx start
+
+service php7.0-fpm start 
+
+exit 0
+EOF
+
+chmod u+x /etc/rc.local
