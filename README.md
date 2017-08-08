@@ -15,7 +15,7 @@ Some desired additions in the roadmap are:
 Word Salad is easy to use. Simply place the target file (targets/wp) somewhere on your Chromebook, install Crouton, and run the following command:
 ```sudo sh /path/to/crouton -n wp -t core -T /path/to/targets/wp```
 
-Grab a cup of coffee and some avocado toast--installation usually takes 15-20 minutes the first time. Once complete, you'll have a functioning version of available if you navigate to ```http://localhost``` in your browser on your Chromebook.
+Grab a cup of coffee and some avocado toast--installation usually takes 15-20 minutes the first time. Once complete, you'll have a functioning version of WordPress available if you navigate to ```http://localhost``` in your browser on your Chromebook.
 
 # Issues
 
