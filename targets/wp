@@ -44,6 +44,10 @@ chmod u+x /etc/rc.local
 ### Start MySQL
 service mysql start
 
+if ! mysql -u root -ppassword -e 'use wordpress'; then
+	echo 'CREATE DATABASE wordpress' | mysql -u root -ppassword
+fi
+
 ### Install WP
 if [ -f '/var/www/wordpress/wp-config.php' ]; then
 	echo "WordPress config file found."
