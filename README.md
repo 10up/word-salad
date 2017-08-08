@@ -1,10 +1,11 @@
-# word-salad
+# Word Salad
 
 Word Salad is a simple target for [Crouton](https://github.com/dnschneid/crouton), the Chrome OS chroot system. Targets are config files for Crouton, enabling you to specify exactly how you want to set up your Linux chroot environment. To this end, Word Salad includes:
 - nginx as a web server
 - php-fpm to handle PHP files
 - mysql to handle all your DB needs
 - the latest version of WordPress core, fresh from GitHub
+- WP-CLI
 
 Some desired additions in the roadmap are:
 - memcache/Redis
