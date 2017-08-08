@@ -11,16 +11,19 @@ CHROOTBIN='croutonpowerd'
 # Update database
 apt-get update || true
 
-### Append to prepare.sh:
+### Install needed packages and configure MySQL 
+echo 'mysql-server mysql-server/root_password password password' | debconf-set-selections
+echo 'mysql-server mysql-server/root_password_again password password' | debconf-set-selections
 install nginx mysql-server php-fpm php-mysql php7.0-xml vim git
 
-### Install WP
-if [ ! -f '/var/www/wordpress/index.php' ]; then
-	git clone https://github.com/WordPress/WordPress.git /var/www/wordpress/ 
+### Install WP-CLI
+if [ ! -f '/usr/local/bin/wp' ]; then
+	wget -O /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+	chmod +x /tmp/wp-cli.phar
+	mv /tmp/wp-cli.phar /usr/local/bin/wp
 fi
 
 ### Set up rc.local to start mysql, php, and nginx
-
 cat << EOF > /etc/rc.local
 #!/bin/sh -e
 export HOME=/etc/mysql
@@ -36,3 +39,17 @@ exit 0
 EOF
 
 chmod u+x /etc/rc.local
+
+### Configure MySQL
+service mysql start
+#mysqladmin -u root password password
+
+### Install WP
+if [ -f '/var/www/wordpress/wp-config.php' ]; then
+	echo "WordPress config file found."
+else
+	echo "WordPress config file not found. Installing..."
+	wp core download --path=/var/www/wordpress/ --allow-root
+	wp core config --path=/var/www/wordpress/ --dbhost=localhost --dbname=wordpress --dbuser=root --dbpass=password --allow-root
+	chown -R www-data /var/www/wordpress/
+fi
