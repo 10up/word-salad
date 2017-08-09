@@ -15,8 +15,9 @@ apt-get update || true
 echo 'mysql-server mysql-server/root_password password password' | debconf-set-selections
 echo 'mysql-server mysql-server/root_password_again password password' | debconf-set-selections
 install nginx mysql-server php-fpm php-mysql php7.0-xml vim git
-wget -O /etc/nginx/sites-enabled/default.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/default.conf
-
+wget -O /etc/nginx/sites-enabled/default.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/default.conf 
+wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/nginx.conf 
+ 
 ### Install WP-CLI
 if [ ! -f '/usr/local/bin/wp' ]; then
 	wget -O /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
