@@ -14,8 +14,10 @@ apt-get update || true
 ### Install needed packages and configure MySQL 
 echo 'mysql-server mysql-server/root_password password password' | debconf-set-selections
 echo 'mysql-server mysql-server/root_password_again password password' | debconf-set-selections
-install nginx mysql-server php-fpm php-mysql php7.0-xml vim git
-wget -O /etc/nginx/sites-enabled/default.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/default.conf 
+
+install nginx mysql-server php-fpm php-mysql php7.0-xml php-dev php-pear memcached php-memcache vim git
+
+wget -O /etc/nginx/sites-enabled/default.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/default.conf
 wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/nginx.conf 
  
 ### Install WP-CLI
@@ -37,6 +39,8 @@ service nginx start
 
 service php7.0-fpm start 
 
+service memcached start
+
 exit 0
 EOF
 
@@ -57,4 +61,5 @@ else
 	wp core download --path=/var/www/wordpress/ --allow-root
 	wp core config --path=/var/www/wordpress/ --dbhost=localhost --dbname=wordpress --dbuser=root --dbpass=password --allow-root
 	chown -R www-data /var/www/wordpress/
+	wget -O /var/www/wordpress/wp-content/object-cache.php https://raw.githubusercontent.com/Automattic/wp-memcached/master/object-cache.php
 fi
