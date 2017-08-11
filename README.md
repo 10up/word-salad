@@ -4,11 +4,11 @@ Word Salad is a simple target for [Crouton](https://github.com/dnschneid/crouton
 - nginx as a web server
 - php-fpm to handle PHP files
 - mysql to handle all your DB needs
+- memcached with php-memcache for caching
 - the latest version of WordPress core, fresh from GitHub
 - WP-CLI
 
 Some desired additions in the roadmap are:
-- memcache/Redis
 - Elasticsearch
 
 # Usage
