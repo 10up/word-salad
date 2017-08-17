@@ -15,8 +15,15 @@ apt-get update || true
 echo 'mysql-server mysql-server/root_password password password' | debconf-set-selections
 echo 'mysql-server mysql-server/root_password_again password password' | debconf-set-selections
 
-install nginx mysql-server php-fpm php-mysql php7.0-xml php-dev php-pear memcached php-memcache vim git
+install nginx mysql-server php-fpm php-mysql php7.0-xml php-dev php-pear memcached php-memcache vim git libsqlite3-dev ruby-dev
 
+### Install mailcatcher for email
+### adapted from https://gist.github.com/shark0der/28f55884a876f67c92ces
+gem install mailcatcher
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'www-data@localhost'" >> /etc/php/7.0/mods-available/mailcatcher.ini
+phpenmod mailcatcher
+
+### Configure Nginx
 wget -O /etc/nginx/sites-enabled/default.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/default.conf
 wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/10up/word-salad/master/config/nginx/nginx.conf 
  
@@ -40,6 +47,8 @@ service nginx start
 service php7.0-fpm start 
 
 service memcached start
+
+/usr/bin/env $(which mailcatcher) --ip=0.0.0.0
 
 exit 0
 EOF
